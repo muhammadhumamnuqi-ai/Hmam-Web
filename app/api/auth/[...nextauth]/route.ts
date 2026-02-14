@@ -3,13 +3,18 @@ import DiscordProvider from "next-auth/providers/discord";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET || "test-secret-temporary-123456789012345",
+  pages: {
+    signIn: "/api/auth/signin",
+    error: "/api/auth/error",
+  },
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_ID!,
       clientSecret: process.env.DISCORD_SECRET!,
+      allowDangerousEmailAccountLinking: true,
       authorization: {
         params: {
-          scope: "identify",
+          scope: "identify email",
         },
       },
     }),
