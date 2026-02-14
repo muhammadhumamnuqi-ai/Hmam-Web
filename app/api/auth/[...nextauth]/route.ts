@@ -5,8 +5,8 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET || "fallback-dev-secret-do-not-use",
   providers: [
     DiscordProvider({
-      clientId: process.env.DISCORD_ID || "",
-      clientSecret: process.env.DISCORD_SECRET || "",
+      clientId: process.env.DISCORD_ID || "1472079782740234445",
+      clientSecret: process.env.DISCORD_SECRET || "nwmE-f3vabJwwXY1McnGMD7pkIamvUrd",
       authorization: {
         params: {
           scope: "identify email",
