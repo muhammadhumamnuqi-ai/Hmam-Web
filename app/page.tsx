@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import {
   FaDiscord,
   FaYoutube,
@@ -44,7 +43,6 @@ type LanyardData = {
 };
 
 export default function Home() {
-  const { data: session } = useSession();
   const [entered, setEntered] = useState(false);
   const [presence, setPresence] = useState<LanyardData | null>(null);
   const [muted, setMuted] = useState(false);
@@ -62,36 +60,18 @@ export default function Home() {
     });
   }, []);
 
-  // Public view: do not force sign-in on page load. Users may still sign in
-  // using the Connect Discord button if they wish.
-
-  // If the visitor isn't signed in, fall back to a public Discord user ID so
-  // the profile (avatar/presence) can still be displayed.
-  // Hardcoded fallback user ID for now — can be replaced with env var later.
-  const fallbackUserId = "709138329228017837"; // Hmam's Discord user ID
-  const userId = session?.user?.id ?? fallbackUserId;
+  // Public profile: display Discord presence using hardcoded user ID
+  const userId = "709138329228017837"; // Hmam's Discord user ID
 
   useEffect(() => {
-    if (!userId) return;
-
-    // Debug: log the userId being requested so we can verify the env var or
-    // session value is present in the client. Check browser console/network.
-    console.log("Lanyard: fetching presence for userId=", userId);
-
     fetch(`https://api.lanyard.rest/v1/users/${userId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Lanyard response:", data);
         if (data?.success) {
           setPresence(data.data);
-        } else {
-          // If API responded but success=false, clear presence and log.
-          setPresence(null);
-          console.warn("Lanyard returned success=false for", userId, data);
         }
       })
-      .catch((err) => {
-        console.error("Lanyard fetch failed for", userId, err);
+      .catch(() => {
         setPresence(null);
       });
   }, [userId]);
