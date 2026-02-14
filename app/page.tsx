@@ -73,14 +73,26 @@ export default function Home() {
   useEffect(() => {
     if (!userId) return;
 
+    // Debug: log the userId being requested so we can verify the env var or
+    // session value is present in the client. Check browser console/network.
+    console.log("Lanyard: fetching presence for userId=", userId);
+
     fetch(`https://api.lanyard.rest/v1/users/${userId}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
+        console.log("Lanyard response:", data);
+        if (data?.success) {
           setPresence(data.data);
+        } else {
+          // If API responded but success=false, clear presence and log.
+          setPresence(null);
+          console.warn("Lanyard returned success=false for", userId, data);
         }
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("Lanyard fetch failed for", userId, err);
+        setPresence(null);
+      });
   }, [userId]);
 
   useEffect(() => {
