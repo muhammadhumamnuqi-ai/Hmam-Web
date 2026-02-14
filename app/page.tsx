@@ -68,7 +68,7 @@ export default function Home() {
   // If the visitor isn't signed in, fall back to a public Discord user ID so
   // the profile (avatar/presence) can still be displayed.
   // Hardcoded fallback user ID for now — can be replaced with env var later.
-  const fallbackUserId = "1472079782740234445"; // Hmam's Discord user ID
+  const fallbackUserId = "709138329228017837"; // Hmam's Discord user ID
   const userId = session?.user?.id ?? fallbackUserId;
 
   useEffect(() => {
