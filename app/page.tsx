@@ -65,7 +65,10 @@ export default function Home() {
   // Public view: do not force sign-in on page load. Users may still sign in
   // using the Connect Discord button if they wish.
 
-  const userId = session?.user?.id;
+  // If the visitor isn't signed in, fall back to a public Discord user ID so
+  // the profile (avatar/presence) can still be displayed. Set
+  // NEXT_PUBLIC_DISCORD_USER_ID in your environment (and on Vercel).
+  const userId = session?.user?.id ?? process.env.NEXT_PUBLIC_DISCORD_USER_ID;
 
   useEffect(() => {
     if (!userId) return;
