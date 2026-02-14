@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import {
   FaDiscord,
   FaYoutube,
@@ -44,7 +44,7 @@ type LanyardData = {
 };
 
 export default function Home() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [entered, setEntered] = useState(false);
   const [presence, setPresence] = useState<LanyardData | null>(null);
   const [muted, setMuted] = useState(false);
@@ -62,10 +62,8 @@ export default function Home() {
     });
   }, []);
 
-  useEffect(() => {
-    if (status === "loading") return;
-    if (!session) signIn("discord");
-  }, [session, status]);
+  // Public view: do not force sign-in on page load. Users may still sign in
+  // using the Connect Discord button if they wish.
 
   const userId = session?.user?.id;
 
