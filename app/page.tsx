@@ -118,7 +118,7 @@ export default function Home() {
         onClick={handleEnter}
         className="flex min-h-screen items-center justify-center bg-black text-white cursor-pointer"
       >
-        <h1 className="text-3xl tracking-widest animate-pulse">
+        <h1 className="text-xl sm:text-3xl tracking-widest animate-pulse px-6 text-center">
           CLICK TO ENTER...
         </h1>
       </div>
@@ -140,18 +140,18 @@ export default function Home() {
 
       <button
         onClick={() => setMuted(!muted)}
-        className="absolute top-5 right-5 z-30 bg-black/50 backdrop-blur-md p-3 rounded-full border border-white/20 hover:scale-110 transition"
+        className="absolute top-3 right-3 sm:top-5 sm:right-5 z-30 bg-black/50 backdrop-blur-md p-2 sm:p-3 rounded-full border border-white/20 hover:scale-110 transition"
       >
         {muted ? <FaVolumeMute size={18} /> : <FaVolumeUp size={18} />}
       </button>
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4">
-        <div className="relative w-32 h-32 flex items-center justify-center">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4 py-6">
+        <div className="relative w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center">
           {avatarUrl && (
             <img
               src={avatarUrl}
               alt="avatar"
-              className="w-28 h-28 rounded-full border-4 border-white/30 shadow-xl z-10"
+              className="w-16 h-16 sm:w-24 sm:h-24 rounded-full border-2 border-white/30 shadow-xl z-10"
             />
           )}
 
@@ -159,13 +159,13 @@ export default function Home() {
             <img
               src={decorationUrl}
               alt="decoration"
-              className="absolute w-40 h-40 object-contain pointer-events-none z-20"
+              className="absolute w-24 h-24 sm:w-36 sm:h-36 object-contain pointer-events-none z-20"
             />
           )}
 
           {presence && (
             <span
-              className={`absolute bottom-3 right-3 w-5 h-5 rounded-full border-2 border-black z-30 ${
+              className={`absolute bottom-0 right-0 sm:bottom-1 sm:right-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 border-black z-30 ${
                 statusColor[presence.discord_status]
               }`}
             />
@@ -173,7 +173,7 @@ export default function Home() {
         </div>
 
         {/* 🔥 NAME WITH SMALLER PARTICLES */}
-        <div className="relative mt-6 w-64 h-24 flex items-center justify-center">
+        <div className="relative mt-2 sm:mt-4 w-full max-w-[180px] sm:max-w-xs h-14 sm:h-20 flex items-center justify-center">
           {particlesReady && (
             <Particles
               id="nameParticles"
@@ -209,7 +209,7 @@ export default function Home() {
           )}
 
           <h1
-            className={`${playfair.className} text-5xl font-bold tracking-wider relative z-10`}
+            className={`${playfair.className} text-3xl sm:text-5xl font-bold tracking-wider relative z-10`}
             style={{
               textShadow:
                 "0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4)",
@@ -219,7 +219,7 @@ export default function Home() {
           </h1>
         </div>
 
-        <p className={`${outfit.className} text-lg font-light tracking-widest text-white/80 mt-3 uppercase`} style={{
+        <p className={`${outfit.className} text-xs sm:text-lg font-light tracking-widest text-white/80 mt-1 sm:mt-3 uppercase`} style={{
           letterSpacing: "0.15em",
           textShadow: "0 0 10px rgba(255,255,255,0.3)"
         }}>
@@ -227,28 +227,28 @@ export default function Home() {
         </p>
 
         {presence && (
-          <div className="mt-6 backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl px-6 py-4 flex items-center gap-4 shadow-2xl">
+          <div className="mt-3 sm:mt-5 backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl px-3 py-2 sm:px-6 sm:py-4 flex items-center gap-2 sm:gap-4 shadow-xl w-full max-w-[260px] sm:max-w-xs">
             {avatarUrl && (
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <img
                   src={avatarUrl}
                   alt="avatar"
-                  className="w-14 h-14 rounded-full"
+                  className="w-9 h-9 sm:w-12 sm:h-12 rounded-full"
                 />
                 <span
-                  className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black ${
+                  className={`absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full border-2 border-black ${
                     statusColor[presence.discord_status]
                   }`}
                 />
               </div>
             )}
 
-            <div className="text-left">
-              <h2 className="text-lg font-semibold">
+            <div className="text-left min-w-0">
+              <h2 className="text-sm sm:text-base font-semibold truncate">
                 {presence.discord_user.username}
               </h2>
 
-              <p className="text-sm text-white/60 capitalize">
+              <p className="text-xs text-white/60 capitalize">
                 {presence.discord_status === "offline"
                   ? "last seen recently"
                   : presence.discord_status}
@@ -258,12 +258,12 @@ export default function Home() {
         )}
 
         {presence?.listening_to_spotify && presence.spotify && (
-          <div className="mt-4 bg-green-500/20 px-6 py-3 rounded-xl border border-green-500/40">
+          <div className="mt-2 sm:mt-3 bg-green-500/20 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg border border-green-500/40 text-xs sm:text-sm w-full max-w-[260px] sm:max-w-xs text-center">
             🎵 {presence.spotify.song} - {presence.spotify.artist}
           </div>
         )}
 
-        <div className="flex gap-6 text-2xl mt-6 text-white/80">
+        <div className="flex gap-4 sm:gap-6 text-lg sm:text-2xl mt-4 sm:mt-6 text-white/80">
           <a 
             href="YOUR_DISCORD_URL" 
             target="_blank" 

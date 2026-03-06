@@ -36,6 +36,12 @@ body {
   overflow: hidden;
 }
 
+@media (max-height: 640px) {
+  body {
+    overflow-y: auto;
+  }
+}
+
 .profile-frame {
   position: relative;
   width: 120px;
