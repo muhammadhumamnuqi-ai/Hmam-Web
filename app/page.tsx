@@ -45,7 +45,7 @@ type LanyardData = {
 export default function Home() {
   const [entered, setEntered] = useState(false);
   const [presence, setPresence] = useState<LanyardData | null>(null);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   const [particlesReady, setParticlesReady] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -82,17 +82,25 @@ export default function Home() {
     videoRef.current.volume = muted ? 0 : 0.5;
   }, [muted]);
 
-  const handleEnter = async () => {
-    setEntered(true);
+  useEffect(() => {
+    if (!entered || !videoRef.current) return;
+    const video = videoRef.current;
+    // Play muted first (always allowed by browsers)
+    video.muted = true;
+    video.volume = 0;
+    video.play().then(() => {
+      // After playback starts, try to unmute
+      video.muted = false;
+      video.volume = 0.5;
+      setMuted(false);
+    }).catch(() => {
+      // Stay muted if browser still blocks
+      setMuted(true);
+    });
+  }, [entered]);
 
-    setTimeout(async () => {
-      if (!videoRef.current) return;
-      try {
-        videoRef.current.muted = false;
-        videoRef.current.volume = 0.5;
-        await videoRef.current.play();
-      } catch {}
-    }, 200);
+  const handleEnter = () => {
+    setEntered(true);
   };
 
   const statusColor = {
@@ -131,6 +139,7 @@ export default function Home() {
         ref={videoRef}
         src="/media/background.mp4"
         loop
+        muted
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover -z-20"
